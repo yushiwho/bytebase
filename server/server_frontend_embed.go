@@ -13,7 +13,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-//go:embed dist/assets/*
+//go:embed dist/bytebase/*
 //go:embed dist
 var embeddedFiles embed.FS
 
@@ -34,7 +34,7 @@ func embedFrontend(e *echo.Echo) {
 		Filesystem: getFileSystem("dist"),
 	}))
 
-	g := e.Group("assets")
+	g := e.Group("bytebase")
 	g.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			c.Response().Header().Set(echo.HeaderCacheControl, "max-age=31536000, immutable")
@@ -43,7 +43,7 @@ func embedFrontend(e *echo.Echo) {
 	})
 	g.Use(middleware.StaticWithConfig(middleware.StaticConfig{
 		HTML5:      true,
-		Filesystem: getFileSystem("dist/assets"),
+		Filesystem: getFileSystem("dist/bytebase"),
 	}))
 }
 
